@@ -1,0 +1,38 @@
+services:
+  moviestore:
+    build:
+      context: C:\KeepLearning\MovieStore
+      dockerfile: MovieStore/Dockerfile
+    depends_on:
+    - moviestore.api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTPS_PORT: '44356'
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: indiacontainerregistry.azurecr.io/moviestore
+    ports:
+    - published: 52318
+      target: 80
+    - published: 44356
+      target: 443
+    volumes:
+    - C:\Users\kraja\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\kraja\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  moviestore.api:
+    build:
+      context: C:\KeepLearning\MovieStore
+      dockerfile: MovieStore.API/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTPS_PORT: '44310'
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: indiacontainerregistry.azurecr.io/moviestoreapi
+    ports:
+    - published: 52542
+      target: 80
+    - published: 44310
+      target: 443
+    volumes:
+    - C:\Users\kraja\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\kraja\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'

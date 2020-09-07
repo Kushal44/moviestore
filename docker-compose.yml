@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  moviestore:
+    image: kcontainerregistry.azurecr.io/moviestore
+    build:
+      context: .
+      dockerfile: MovieStore/Dockerfile
+    depends_on:
+      - "moviestore.api" 
+
+  moviestore.api:
+    image: kcontainerregistry.azurecr.io/moviestoreapi
+    build:
+      context: .
+      dockerfile: MovieStore.API/Dockerfile
+
